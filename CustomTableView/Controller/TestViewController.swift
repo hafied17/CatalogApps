@@ -22,6 +22,20 @@ class TestViewController: UIViewController {
     var idGame = ""
     var urlString = ""
     
+    var idgameF = ""
+    var describF = ""
+    var nameF = ""
+    var genreF = ""
+    var webF = ""
+    var ratingF = ""
+    var releasedF = ""
+    var imageF = ""
+    var developerF = ""
+
+    private lazy var favoriteProvider: FavoriteProvider = { return FavoriteProvider() }()
+
+    var favoriteId: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         detailAPI()
@@ -30,9 +44,16 @@ class TestViewController: UIViewController {
 
     }
     
+    @IBAction func test(_ sender: Any) {
+        saveFavorite()
+
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
     }
+
+
 
     func detailAPI() {
         guard let gitUrl = URL(string: "https://api.rawg.io/api/games/\(idGame)?key=89e15c9492fa4780a2dccd7244217799") else { return }
@@ -58,6 +79,15 @@ class TestViewController: UIViewController {
                                           placeholderImage: UIImage(systemName: "photo"),
                                           options: .continueInBackground,
                                           completed: nil)
+                    self.idgameF = "\(data.id)"
+                    self.nameF = "\(data.name)"
+                    self.genreF = "\(data.genres[0].name)"
+                    self.webF = "\(data.website)"
+                    self.ratingF = "\(data.rating)"
+                    self.releasedF = "\(data.released)"
+                    self.imageF = "\(data.backgroundImage)"
+                    self.developerF = "\(data.developers[0].name)"
+                    
                 }
 
                 
@@ -67,5 +97,19 @@ class TestViewController: UIViewController {
             }.resume()
             
         }
+    
+    private func saveFavorite() {
+        favoriteProvider.createFavorite(describF, developerF, genreF, idgameF, imageF, nameF, ratingF, releasedF, webF) {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Successful", message: "Favorite game has been added!", preferredStyle: .alert)
+                            
+                    alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        
+    }
 
 }

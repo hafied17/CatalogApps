@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    
     var urlString = ""
     var idGame = ""
     let parser = Parser()
@@ -35,7 +36,6 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
     }
-
     
 }
 
