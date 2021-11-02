@@ -14,25 +14,8 @@ class ViewController: UIViewController {
     
     var urlString = ""
     var idGame = ""
-    let titlesF = [("Apple"),("Apricot"),("Banana"),("Grapes"),("Kiwi"),("Orange"),("Peach")]
-    let desF = [("An apple is a sweet, edible fruit produced by an apple tree."),
-                ("An apricot is a fruit, or the tree that bears the fruit, of several species in the genus Prunus (stone fruits)."),
-                ("A banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa."),
-                ("A grape is a fruit, botanically a berry, of the deciduous woody vines of the flowering plant genus Vitis."),
-                ("Kiwifruit, or Chinese gooseberry is the edible berry of several species of woody vines in the genus Actinidia."),
-                ("The orange is the fruit of the citrus species Citrus × sinensis in the family Rutaceae. "),
-                ("A peach is a soft, juicy and fleshy stone fruit produced by a peach tree.")]
-    let imagesF = [UIImage(named: "apple"),
-                   UIImage(named: "apricot"),
-                   UIImage(named: "banana"),
-                   UIImage(named: "grapes"),
-                   UIImage(named: "kiwi"),
-                   UIImage(named: "orange"),
-                   UIImage(named: "peach")]
-    
     let parser = Parser()
-    
-    var result = [Result]()
+    var result = [Game]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +30,10 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     
@@ -66,7 +53,6 @@ extension ViewController : UITableViewDataSource {
                               placeholderImage: UIImage(systemName: "photo"),
                               options: .continueInBackground,
                               completed: nil)
-//        cell.imageGame.image = self.imagesF[indexPath.row]
         cell.titleLabel01.text = result[indexPath.row].name
         cell.textLabel01.text = result[indexPath.row].released
         cell.rating.text = "\(result[indexPath.row].rating)"
